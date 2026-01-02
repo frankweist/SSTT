@@ -3,20 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>SSTT HIGUERON</title>
+    <title>SSTT HIGUERON | SERVEO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root { --higueron-blue: #003a63; }
-        body { -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease; }
+        :root { 
+            --higueron-blue: #003a63; 
+            --serveo-orange: #ff5900; 
+            --serveo-orange-light: #ff7a33;
+        }
+        body { -webkit-tap-highlight-color: transparent; }
         body.dark { background-color: #0f172a; color: #f1f5f9; }
-        .bg-higueron { background-color: var(--higueron-blue); }
         
+        .btn-serveo-border {
+            background-color: white;
+            border: 2px solid var(--serveo-orange);
+            transition: all 0.2s;
+        }
+        .dark .btn-serveo-border { background-color: #1e293b; }
+
+        .btn-serveo-solid {
+            background: linear-gradient(135deg, var(--serveo-orange) 0%, var(--serveo-orange-light) 100%);
+            color: white;
+            border: 2px solid var(--serveo-orange);
+        }
+
         .zone-card {
             position: relative; height: 130px; border-radius: 24px; overflow: hidden;
             display: flex; align-items: flex-end; padding: 20px;
-            background-size: cover; background-position: center; color: white; border: none; width: 100%;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            background-size: cover; background-position: center; color: white;
+            border: 2px solid var(--serveo-orange); width: 100%;
         }
         .zone-card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -24,395 +40,314 @@
         }
         .zone-card span { position: relative; z-index: 2; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; }
 
-        .subzone-btn { background-color: white; border-bottom: 4px solid #e2e8f0; transition: all 0.2s; }
-        .dark .subzone-btn { background-color: #1e293b; border-bottom: 4px solid #0f172a; }
-        .subzone-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+        .priority-card-low { border-left: 10px solid #22c55e !important; border-top: 2px solid var(--serveo-orange); border-right: 2px solid var(--serveo-orange); border-bottom: 2px solid var(--serveo-orange); }
+        .priority-card-med { border-left: 10px solid #f59e0b !important; border-top: 2px solid var(--serveo-orange); border-right: 2px solid var(--serveo-orange); border-bottom: 2px solid var(--serveo-orange); }
+        .priority-card-high { border-left: 10px solid var(--serveo-orange) !important; border-top: 2px solid var(--serveo-orange); border-right: 2px solid var(--serveo-orange); border-bottom: 2px solid var(--serveo-orange); }
 
-        .priority-low { border-left: 10px solid #22c55e !important; }
-        .priority-med { border-left: 10px solid #f59e0b !important; }
-        .priority-high { border-left: 10px solid #ef4444 !important; }
-        .card-done { background-color: #f0fdf4 !important; opacity: 0.7; border-left-color: #16a34a !important; }
-        .dark .card-done { background-color: #064e3b !important; }
+        .task-done { background-color: #f0fdf4 !important; border-color: #22c55e !important; }
+        .dark .task-done { background-color: #064e3b !important; }
 
-        .footer-actions {
-            position: sticky; bottom: 0; background: white;
-            padding: 15px; border-top: 1px solid #e2e8f0;
-            margin: 2rem -1rem -1rem -1rem; z-index: 50;
-        }
-        .dark .footer-actions { background-color: #1e293b; border-top-color: #334155; }
+        .active-prio-low { background-color: #22c55e !important; color: white !important; border-color: #166534 !important; }
+        .active-prio-med { background-color: #f59e0b !important; color: white !important; border-color: #92400e !important; }
+        .active-prio-high { background-color: var(--serveo-orange) !important; color: white !important; border-color: #b33e00 !important; }
+        .active-type { background-color: var(--higueron-blue) !important; color: white !important; border-color: white !important; }
+
         .view-transition { animation: fadeIn 0.2s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="bg-slate-100 antialiased text-slate-900 font-sans">
+<body class="bg-slate-50 antialiased text-slate-900 font-sans">
 
-    <header class="bg-white dark:bg-slate-900 border-b p-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
-        <div class="flex items-center gap-2" onclick="resetApp()">
-            <img src="img/higueron_resort_malaga_logo.jpg" alt="Logo" class="w-10 h-10 rounded-lg object-cover">
+    <header class="bg-white dark:bg-slate-900 border-b-4 border-[#ff5900] p-4 sticky top-0 z-50 flex justify-between items-center shadow-md h-[80px]">
+        <div class="flex items-center gap-3" onclick="resetApp()">
+            <img src="serveo.png" alt="Serveo" class="h-10 object-contain">
+            <div class="w-[2px] h-10 bg-slate-200 mx-1"></div>
             <div>
-                <h1 class="font-black text-sm tracking-tighter leading-none text-higueron dark:text-white uppercase">SSTT</h1>
-                <span class="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Higuerón</span>
+                <h1 class="font-black text-lg leading-none text-[#003a63] dark:text-white uppercase">SSTT</h1>
+                <span class="text-xs font-bold text-[#ff5900] uppercase tracking-widest">Higuerón</span>
             </div>
         </div>
-        <div class="flex gap-2">
-            <button onclick="toggleDarkMode()" class="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
-            </button>
-            <button onclick="showHistory()" class="relative p-2 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 dark:bg-slate-800">
+
+        <div id="nav-standard" class="flex gap-2">
+            <button onclick="toggleDarkMode()" class="p-2 text-slate-400"><i id="theme-icon" data-lucide="moon"></i></button>
+            <button onclick="showHistory()" class="relative p-2 bg-white text-[#003a63] rounded-xl border-2 border-[#ff5900] dark:bg-slate-800">
                 <i data-lucide="clipboard-list"></i>
-                <span id="pending-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">0</span>
+                <span id="pending-count" class="absolute -top-2 -right-2 bg-[#ff5900] text-white text-xs w-6 h-6 flex items-center justify-center rounded-full font-bold shadow-lg">0</span>
             </button>
+        </div>
+
+        <div id="nav-admin" class="hidden flex gap-1">
+            <button onclick="downloadExcel()" class="p-2 text-slate-600"><i data-lucide="file-spreadsheet"></i></button>
+            <button onclick="sendWhatsApp()" class="p-2 text-green-600"><i data-lucide="share-2"></i></button>
+            <button onclick="exportData()" class="p-2 text-blue-600"><i data-lucide="download-cloud"></i></button>
+            <button onclick="importData()" class="p-2 text-purple-600"><i data-lucide="upload-cloud"></i></button>
+            <button onclick="clearAllData()" class="p-2 text-red-500"><i data-lucide="trash-2"></i></button>
+            <button onclick="resetApp()" class="ml-1 p-2 bg-slate-100 rounded-lg text-slate-400"><i data-lucide="x"></i></button>
         </div>
     </header>
 
-    <div id="app" class="max-w-md mx-auto p-4 min-h-[calc(100vh-80px)]">
+    <div id="app" class="max-w-md mx-auto p-4">
         
         <div id="view-zones" class="view-transition">
-            <div class="mb-6 rounded-[32px] overflow-hidden bg-higueron aspect-video flex items-center justify-center shadow-lg">
-                <img src="img/Higueron Resort.png" alt="Higueron Resort" class="w-full h-full object-contain p-6">
+            <div class="mb-6 rounded-[32px] overflow-hidden bg-[#003a63] aspect-video flex items-center justify-center shadow-lg relative border-4 border-[#ff5900]">
+                <img src="principal.png" alt="Resort" class="w-full h-full object-contain p-4">
             </div>
-
+            
             <div class="mb-6 relative">
-                <input type="number" id="quick-search" placeholder="Escribe habitación..." 
-                    class="w-full p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border-2 border-transparent focus:border-blue-500 outline-none font-black text-lg dark:text-white">
-                <button onclick="fastSearch()" class="absolute right-3 top-3 bg-higueron text-white p-3 rounded-xl shadow-lg">
-                    <i data-lucide="search" class="w-5 h-5"></i>
-                </button>
+                <input type="number" id="quick-search" placeholder="Habitación..." class="w-full p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border-2 border-[#ff5900] outline-none font-black text-xl dark:text-white transition-all">
+                <button onclick="fastSearch()" class="absolute right-3 top-3 btn-serveo-solid p-3 rounded-xl shadow-lg"><i data-lucide="search"></i></button>
             </div>
 
-            <div class="grid grid-cols-1 gap-3">
-                <button onclick="selectZone('Residence')" class="zone-card" style="background-image: url('img/residence.jpg');"><span>Residence</span></button>
-                <button onclick="selectZone('Villas')" class="zone-card" style="background-image: url('img/villas.jpg');"><span>Villas</span></button>
-                <button onclick="selectZone('LT')" class="zone-card" style="background-image: url('img/leiro.jpg');"><span>Leiro Tower</span></button>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="selectZone('Darko')" class="zone-card" style="height:110px; background-image: url('img/norte.jpg');"><span>Torre Norte</span></button>
-                    <button onclick="selectZone('Brink')" class="zone-card" style="height:110px; background-image: url('img/sur.jpg');"><span>Torre Sur</span></button>
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="selectZone('Residence')" class="zone-card" style="background-image: url('residence.jpg');"><span>Residence</span></button>
+                <button onclick="selectZone('Villas')" class="zone-card" style="background-image: url('villas.jpg');"><span>Villas</span></button>
+                <button onclick="selectZone('Leiro Tower')" class="zone-card" style="background-image: url('leiro.jpg');"><span>Leiro Tower</span></button>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="selectZone('Darko')" class="zone-card" style="height:110px; background-image: url('norte.jpg');"><span>Torre Darko</span></button>
+                    <button onclick="selectZone('Brinkman')" class="zone-card" style="height:110px; background-image: url('sur.jpg');"><span>Torre Brinkman</span></button>
                 </div>
             </div>
         </div>
 
-        <div id="view-subzones" class="hidden view-transition">
-            <button onclick="showView('view-zones')" class="mb-4 font-black text-slate-400 flex items-center gap-1 text-xs uppercase"><i data-lucide="chevron-left" class="w-4 h-4"></i> Volver</button>
-            <div id="subzone-container" class="grid grid-cols-2 gap-4"></div>
-        </div>
-
-        <div id="view-rooms" class="hidden view-transition">
-            <button onclick="showView('view-subzones')" class="mb-4 font-black text-slate-400 flex items-center gap-1 text-xs uppercase"><i data-lucide="chevron-left" class="w-4 h-4"></i> Volver</button>
-            <div id="rooms-container" class="grid grid-cols-4 gap-2"></div>
+        <div id="view-selection" class="hidden view-transition">
+            <h2 id="selection-title" class="text-2xl font-black uppercase text-[#003a63] dark:text-white mb-4 border-l-8 border-[#ff5900] pl-3">Seleccionar</h2>
+            <div id="selection-container" class="grid grid-cols-2 gap-4"></div>
+            <button onclick="goBack()" class="w-full mt-8 py-4 btn-serveo-border rounded-2xl font-black text-[#ff5900] uppercase text-sm tracking-widest shadow-sm">Volver</button>
         </div>
 
         <div id="view-form" class="hidden view-transition">
-            <div class="bg-white dark:bg-slate-900 rounded-[40px] p-8 shadow-xl">
-                <h2 id="selected-room-label" class="text-6xl font-black mb-1 tracking-tighter text-higueron dark:text-white">--</h2>
-                <div id="room-info" class="text-blue-400 font-bold text-[10px] uppercase mb-6 tracking-widest"></div>
+            <div class="bg-white dark:bg-slate-900 rounded-[40px] p-8 shadow-xl border-4 border-[#ff5900]">
+                <h2 id="selected-room-label" class="text-6xl font-black mb-1 text-[#003a63] dark:text-white">--</h2>
+                <div id="room-info" class="text-[#ff5900] font-bold text-sm uppercase mb-6 tracking-widest italic"></div>
                 
                 <input type="file" id="camera-input" accept="image/*" capture="environment" class="hidden" onchange="previewImage(event)">
-                <button onclick="document.getElementById('camera-input').click()" id="camera-btn" class="w-full py-5 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col items-center gap-2 text-slate-400 mb-6 bg-slate-50 dark:bg-slate-800">
-                    <i data-lucide="camera" class="w-6 h-6"></i>
-                    <span class="text-[10px] font-black uppercase">Subir Foto</span>
+                <button onclick="document.getElementById('camera-input').click()" id="camera-btn" class="w-full py-5 border-2 border-dashed border-[#ff5900] rounded-2xl flex flex-col items-center gap-2 text-[#ff5900] mb-4 bg-orange-50 dark:bg-slate-800">
+                    <i data-lucide="camera" class="w-8 h-8"></i><span class="font-black uppercase text-[10px]">Hacer Foto</span>
                 </button>
-                <div id="preview-container" class="hidden mt-2 mb-6 relative">
-                    <img id="img-preview" src="" class="w-full h-44 object-cover rounded-2xl shadow-md">
-                    <button onclick="removeImage()" class="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full shadow-lg"><i data-lucide="x" class="w-4 h-4"></i></button>
-                </div>
-
-                <div class="grid grid-cols-3 gap-2 mb-6">
-                    <button id="prio-low" onclick="setPriority('low', this)" class="priority-btn p-3 rounded-2xl bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-black text-[10px] uppercase border-2 border-transparent">Baja</button>
-                    <button id="prio-med" onclick="setPriority('med', this)" class="priority-btn p-3 rounded-2xl bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 font-black text-[10px] uppercase border-2 border-transparent">Media</button>
-                    <button id="prio-high" onclick="setPriority('high', this)" class="priority-btn p-3 rounded-2xl bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 font-black text-[10px] uppercase border-2 border-transparent">Crítica</button>
-                </div>
-
-                <textarea id="task-note" class="w-full bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 mb-6 text-sm outline-none border border-transparent focus:border-blue-500 dark:text-white" rows="2" placeholder="Notas técnicas..."></textarea>
                 
-                <div id="type-selector" class="grid grid-cols-2 gap-2 mb-8">
-                    <button onclick="setType('Agua', this)" class="type-btn p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 dark:text-white font-bold text-xs uppercase transition-all">💧 Agua</button>
-                    <button onclick="setType('Luz', this)" class="type-btn p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 dark:text-white font-bold text-xs uppercase transition-all">💡 Luz</button>
-                    <button onclick="setType('Aire', this)" class="type-btn p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 dark:text-white font-bold text-xs uppercase transition-all">❄️ Aire</button>
-                    <button onclick="setType('Otros', this)" class="type-btn p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 dark:text-white font-bold text-xs uppercase transition-all">🛠️ Otros</button>
+                <div id="preview-container" class="hidden mb-4 relative">
+                    <img id="img-preview" src="" class="w-full h-44 object-cover rounded-2xl shadow-md border-4 border-[#ff5900]">
+                    <button onclick="removeImage()" class="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full shadow-lg"><i data-lucide="x"></i></button>
                 </div>
 
-                <button onclick="finalSave()" class="w-full py-5 bg-higueron text-white rounded-3xl font-black text-xl shadow-lg active:scale-95 transition-all uppercase tracking-widest">Registrar</button>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <button id="prio-low" onclick="setPriority('low', this)" class="priority-btn btn-serveo-border p-4 rounded-2xl font-black text-[10px] uppercase">Baja</button>
+                    <button id="prio-med" onclick="setPriority('med', this)" class="priority-btn btn-serveo-border p-4 rounded-2xl font-black text-[10px] uppercase">Media</button>
+                    <button id="prio-high" onclick="setPriority('high', this)" class="priority-btn btn-serveo-border p-4 rounded-2xl font-black text-[10px] uppercase">Alta</button>
+                </div>
+
+                <textarea id="task-note" class="w-full bg-white dark:bg-slate-800 rounded-2xl p-4 mb-4 text-sm outline-none dark:text-white border-2 border-[#ff5900]" placeholder="Notas..."></textarea>
+                
+                <div id="type-selector" class="grid grid-cols-2 gap-2 mb-6">
+                    <button onclick="setType('Agua', this)" class="type-btn btn-serveo-border p-4 rounded-2xl font-bold text-xs uppercase">💧 Agua</button>
+                    <button onclick="setType('Luz', this)" class="type-btn btn-serveo-border p-4 rounded-2xl font-bold text-xs uppercase">💡 Luz</button>
+                    <button onclick="setType('Aire', this)" class="type-btn btn-serveo-border p-4 rounded-2xl font-bold text-xs uppercase">❄️ Aire</button>
+                    
+                    <button id="btn-hidro" onclick="setType('Hidrokit', this)" class="type-btn btn-serveo-border p-4 rounded-2xl font-bold text-xs uppercase hidden">🌡️ Hidrokit</button>
+                    <button id="btn-domo" onclick="setType('Domotica', this)" class="type-btn btn-serveo-border p-4 rounded-2xl font-bold text-xs uppercase hidden">📱 Domótica</button>
+                    <button id="btn-jacuzzi" onclick="setType('Jacuzzi', this)" class="type-btn btn-serveo-border p-4 rounded-2xl font-bold text-xs uppercase hidden">🛁 Jacuzzi</button>
+                    
+                    <button id="btn-otros" onclick="setType('Otros', this)" class="type-btn btn-serveo-border p-4 rounded-2xl font-bold text-xs uppercase">🛠️ Otros</button>
+                </div>
+
+                <button onclick="finalSave()" class="w-full py-5 btn-serveo-solid rounded-3xl font-black text-xl uppercase tracking-widest shadow-lg">Registrar</button>
+                <button onclick="goBack()" class="w-full py-3 mt-4 btn-serveo-border rounded-2xl font-black text-[#ff5900] uppercase text-xs">Volver</button>
             </div>
         </div>
 
-        <div id="view-history" class="hidden view-transition flex flex-col h-full">
-            <h2 class="text-2xl font-black italic uppercase text-higueron dark:text-white mb-4">Administración</h2>
-            
-            <div class="grid grid-cols-3 gap-2 mb-6">
-                <button onclick="exportData()" class="flex flex-col items-center justify-center p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-2xl border border-blue-100 dark:border-blue-800">
-                    <i data-lucide="download" class="w-5 h-5 mb-1"></i>
-                    <span class="text-[9px] font-black uppercase">Exportar</span>
-                </button>
-                <button onclick="document.getElementById('import-file').click()" class="flex flex-col items-center justify-center p-3 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-2xl border border-purple-100 dark:border-purple-800">
-                    <i data-lucide="upload" class="w-5 h-5 mb-1"></i>
-                    <span class="text-[9px] font-black uppercase">Importar</span>
-                </button>
-                <button onclick="clearHistory()" class="flex flex-col items-center justify-center p-3 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-2xl border border-red-100 dark:border-red-800">
-                    <i data-lucide="trash-2" class="w-5 h-5 mb-1"></i>
-                    <span class="text-[9px] font-black uppercase tracking-tighter">Borrar Todo</span>
-                </button>
-                <input type="file" id="import-file" class="hidden" accept=".json" onchange="importData(event)">
-            </div>
-
-            <div id="stats-panel" class="grid grid-cols-3 gap-2 mb-6 text-center">
-                <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-sm"><div id="stat-total" class="text-xl font-black dark:text-white">0</div><div class="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Total</div></div>
-                <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-sm border-b-4 border-green-500"><div id="stat-done" class="text-xl font-black text-green-600">0</div><div class="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Hechos</div></div>
-                <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-sm border-b-4 border-blue-500"><div id="stat-percent" class="text-xl font-black text-blue-600">0%</div><div class="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Eficacia</div></div>
-            </div>
-
-            <div id="history-list" class="space-y-4 pb-48"></div>
-
-            <div class="footer-actions space-y-3">
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="downloadExcel()" class="py-4 bg-slate-800 text-white rounded-2xl font-black text-[10px] uppercase flex items-center justify-center gap-2">
-                        <i data-lucide="file-text" class="w-4 h-4"></i> Descargar CSV
-                    </button>
-                    <button onclick="sendWhatsApp()" class="py-4 bg-green-600 text-white rounded-2xl font-black text-[10px] uppercase flex items-center justify-center gap-2">
-                        <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
-                    </button>
-                </div>
-                <button onclick="showView('view-zones')" class="w-full py-5 bg-higueron text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg flex items-center justify-center gap-2">
-                    <i data-lucide="home" class="w-5 h-5"></i> Menú Principal
-                </button>
-            </div>
+        <div id="view-history" class="hidden view-transition">
+            <div id="stats-bar" class="flex justify-between items-center bg-white dark:bg-slate-800 px-4 py-3 rounded-2xl border-2 border-[#ff5900] text-[10px] font-black uppercase shadow-sm mb-4 dark:text-white"></div>
+            <div id="history-list" class="space-y-4 pb-24"></div>
+            <button onclick="resetApp()" class="fixed bottom-6 left-1/2 -translate-x-1/2 btn-serveo-solid px-10 py-4 rounded-full font-black uppercase shadow-2xl z-50">Menú Inicio</button>
         </div>
     </div>
 
     <script>
-        let currentData = { zone: '', sub: '', room: '', type: '', priority: 'low', image: null };
-        const config = { Residence: { items: ['A', 'B', 'C', 'D'] }, Villas: { items: [1] }, LT: { items: [1,2,3,4,5,6,7,8] }, Darko: { items: [1,2,3,4,5] }, Brink: { items: [1,2,3,4] } };
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark');
-            localStorage.setItem('higueron_dark', document.body.classList.contains('dark'));
-            updateThemeIcon(document.body.classList.contains('dark'));
-        }
-
-        function updateThemeIcon(isDark) {
-            const icon = document.getElementById('theme-icon');
-            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-            lucide.createIcons();
-        }
-
-        function fastSearch() {
-            const num = parseInt(document.getElementById('quick-search').value);
-            if (!num) return;
-            let zone = "", sub = "";
-            if (num >= 3101 && num <= 3109) zone = "Villas";
-            else if (num >= 2100 && num <= 2109) { zone = "Residence"; sub = "A"; }
-            else if (num >= 2200 && num <= 2209) { zone = "Residence"; sub = "B"; }
-            else if (num >= 2300 && num <= 2309) { zone = "Residence"; sub = "C"; }
-            else if (num >= 2400 && num <= 2409) { zone = "Residence"; sub = "D"; }
-            else if (num >= 1100 && num <= 1821) { zone = "LT"; sub = Math.floor(num / 100) - 10; }
-            else if (num % 2 === 0) { zone = "Darko"; sub = Math.floor(num / 100); }
-            else { zone = "Brink"; sub = Math.floor(num / 100); }
-
-            if (zone) { currentData = { zone, sub, room: num, type: '', priority: 'low', image: null }; openForm(num); }
-            else { alert("Habitación no válida"); }
-        }
-
-        function showView(viewId) {
+        let viewHistory = ['view-zones'];
+        let currentData = { zone: '', sub: '', floor: '', room: '', type: '', priority: 'low', image: null };
+        
+        function showView(viewId, pushToHistory = true) {
             document.querySelectorAll('#app > div').forEach(v => v.classList.add('hidden'));
             document.getElementById(viewId).classList.remove('hidden');
-            window.scrollTo(0,0);
-            lucide.createIcons(); updatePendingCounter();
+            const isHistory = viewId === 'view-history';
+            document.getElementById('nav-standard').classList.toggle('hidden', isHistory);
+            document.getElementById('nav-admin').classList.toggle('hidden', !isHistory);
+            if(pushToHistory && viewHistory[viewHistory.length - 1] !== viewId) { 
+                viewHistory.push(viewId); history.pushState({view: viewId}, ""); 
+            }
+            window.scrollTo(0,0); lucide.createIcons(); updatePendingCounter();
         }
+
+        window.onpopstate = function() { if (viewHistory.length > 1) { viewHistory.pop(); showView(viewHistory[viewHistory.length - 1], false); } };
+        function goBack() { window.history.back(); }
+        function resetApp() { document.getElementById('quick-search').value = ""; currentData = { zone: '', sub: '', floor: '', room: '', type: '', priority: 'low', image: null }; viewHistory = ['view-zones']; showView('view-zones'); }
+
+        const resConfig = { 'A': { f: 4, r: 2, s: 2100 }, 'B': { f: 4, r: 2, s: 2200 }, 'C': { f: 2, r: 4, s: 2300 }, 'D': { f: 2, r: 1, s: 2400 } };
+        const config = { "Residence": { items: ['A', 'B', 'C', 'D'] }, "Villas": { items: [1] }, "Leiro Tower": { items: [1,2,3,4,5,6,7,8] }, "Darko": { items: [1,2,3,4,5] }, "Brinkman": { items: [1,2,3,4] } };
 
         function selectZone(zone) {
             currentData.zone = zone;
-            if (zone === 'Villas') { renderRooms(3101, 3109, 'all'); return; }
-            const container = document.getElementById('subzone-container');
-            container.innerHTML = '';
+            if (zone === 'Villas') { currentData.sub = ""; currentData.floor = ""; renderRooms(3101, 3108, 'all'); return; }
+            const container = document.getElementById('selection-container');
+            container.innerHTML = ''; container.className = "grid grid-cols-2 gap-4";
+            document.getElementById('selection-title').innerText = zone === 'Residence' ? "Bloque" : "Planta";
             config[zone].items.forEach(item => {
                 const btn = document.createElement('button');
-                btn.className = "subzone-btn p-6 rounded-[2rem] shadow-sm flex flex-col items-center justify-center dark:text-white";
-                btn.innerHTML = zone === 'Residence' ? 
-                    `<span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Portal</span> <span class="text-3xl font-black">${item}</span>` :
-                    `<span class="text-2xl font-black">${item}ª</span> <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Planta</span>`;
-                btn.onclick = () => selectSubZone(item);
+                btn.className = "btn-serveo-border p-6 rounded-[1.5rem] shadow-sm flex flex-col items-center justify-center font-black";
+                btn.innerHTML = zone === 'Residence' ? `<span class="text-xs text-slate-400 uppercase">Bloque</span><span class="text-3xl dark:text-white">${item}</span>` : `<span class="text-3xl dark:text-white">${item}ª</span><span class="text-[10px] text-slate-400 uppercase">Planta</span>`;
+                btn.onclick = () => zone === 'Residence' ? selectResidenceBlock(item) : selectSubZone(item);
                 container.appendChild(btn);
             });
-            showView('view-subzones');
+            showView('view-selection');
+        }
+
+        function selectResidenceBlock(block) {
+            currentData.sub = block;
+            const container = document.getElementById('selection-container');
+            container.innerHTML = '';
+            for (let f = 1; f <= resConfig[block].f; f++) {
+                const btn = document.createElement('button');
+                btn.className = "btn-serveo-border p-6 rounded-[1.5rem] shadow-sm flex flex-col items-center justify-center font-black";
+                btn.innerHTML = `<span class="text-3xl dark:text-white">${f}ª</span><span class="text-[10px] text-slate-400 uppercase">Planta</span>`;
+                btn.onclick = () => { currentData.floor = f; const s = resConfig[block].s + ((f-1) * resConfig[block].r); renderRooms(s, s + resConfig[block].r - 1, 'all'); };
+                container.appendChild(btn);
+            }
         }
 
         function selectSubZone(sub) {
-            currentData.sub = sub; const z = currentData.zone;
-            if (z === 'Residence') { const map = { 'A': 2100, 'B': 2200, 'C': 2300, 'D': 2400 }; renderRooms(map[sub], map[sub] + 9, 'all'); }
-            else if (z === 'LT') { renderRooms((sub+10)*100, (sub+10)*100 + 21, 'all'); }
-            else if (z === 'Darko') { renderRooms(sub * 100, sub * 100 + 38, 'even'); }
-            else if (z === 'Brink') { renderRooms(sub * 100 + 1, sub * 100 + 45, 'odd'); }
+            currentData.sub = sub;
+            const z = currentData.zone;
+            if (z === 'Leiro Tower') sub === 1 ? renderRooms(1101, 1115, 'odd') : (sub === 2 ? renderRooms(1201, 1221, 'odd') : renderRooms((sub+10)*100, (sub+10)*100 + 21, 'all'));
+            else if (z === 'Darko') renderRooms(sub * 100, sub * 100 + 38, 'even');
+            else if (z === 'Brinkman') renderRooms(sub * 100 + 1, { 1: 129, 2: 241, 3: 345, 4: 443 }[sub], 'odd');
         }
 
         function renderRooms(start, end, filter) {
-            const container = document.getElementById('rooms-container');
-            container.innerHTML = '';
+            const container = document.getElementById('selection-container');
+            container.innerHTML = ''; container.className = "grid grid-cols-4 gap-2";
+            document.getElementById('selection-title').innerText = "Habitación";
             for (let i = start; i <= end; i++) {
-                if (filter === 'even' && i % 2 !== 0) continue;
-                if (filter === 'odd' && i % 2 === 0) continue;
+                if ((filter === 'even' && i % 2 !== 0) || (filter === 'odd' && i % 2 === 0)) continue;
                 const btn = document.createElement('button');
-                btn.className = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 p-4 rounded-2xl font-black text-sm shadow-sm active:bg-blue-600 active:text-white transition-colors dark:text-white";
+                btn.className = "btn-serveo-border p-4 rounded-2xl font-black text-sm dark:text-white";
                 btn.innerText = i; btn.onclick = () => { currentData.room = i; openForm(i); };
                 container.appendChild(btn);
             }
-            showView('view-rooms');
+            showView('view-selection');
         }
 
         function openForm(roomNum) {
             document.getElementById('selected-room-label').innerText = roomNum;
-            const subLabel = currentData.sub ? (currentData.zone === 'Residence' ? 'Portal ' + currentData.sub : currentData.sub + 'ª Planta') : 'Complejo';
-            document.getElementById('room-info').innerText = `${currentData.zone} • ${subLabel}`;
-            document.getElementById('task-note').value = '';
+            let route = currentData.zone;
+            if(currentData.zone === 'Residence') route += ` | Bloque ${currentData.sub} | Planta ${currentData.floor}`;
+            else if(currentData.zone === 'Villas') route += "";
+            else if(currentData.sub) route += ` | Planta ${currentData.sub}`;
+            document.getElementById('room-info').innerText = route;
+            
+            const isResOrVilla = (currentData.zone === 'Residence' || currentData.zone === 'Villas');
+            const isLeiroP8 = (currentData.zone === 'Leiro Tower' && currentData.sub == 8);
+
+            // Visibilidad de botones específicos
+            document.getElementById('btn-hidro').classList.toggle('hidden', !isResOrVilla);
+            document.getElementById('btn-domo').classList.toggle('hidden', !isResOrVilla);
+            document.getElementById('btn-jacuzzi').classList.toggle('hidden', !(isResOrVilla || isLeiroP8));
+
+            // Lógica del botón "Otros": Solo col-span-2 si el total de botones visibles es IMPAR
+            // (Residence/Villas = 7 botones; Leiro P8 = 5 botones; Resto = 4 botones)
+            const totalButtons = 4 + (isResOrVilla ? 2 : 0) + ((isResOrVilla || isLeiroP8) ? 1 : 0);
+            const btnOtros = document.getElementById('btn-otros');
+            if (totalButtons % 2 !== 0) {
+                btnOtros.classList.add('col-span-2');
+            } else {
+                btnOtros.classList.remove('col-span-2');
+            }
+
+            document.getElementById('task-note').value = ''; 
             removeImage();
-            document.querySelectorAll('.type-btn').forEach(b => {
-                b.classList.remove('bg-higueron', 'text-white');
-                b.classList.add('bg-slate-50', 'dark:bg-slate-800');
-            });
-            document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('border-higueron', 'ring-2', 'ring-higueron'));
-            currentData.type = '';
-            currentData.priority = 'low';
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active-type'));
+            document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active-prio-low', 'active-prio-med', 'active-prio-high'));
+            currentData.type = ''; setPriority('low', document.getElementById('prio-low')); 
             showView('view-form');
         }
 
-        function setPriority(p, el) {
-            currentData.priority = p;
-            document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('border-higueron', 'ring-2', 'ring-higueron'));
-            el.classList.add('border-higueron', 'ring-2', 'ring-higueron');
+        function fastSearch() {
+            const num = parseInt(document.getElementById('quick-search').value); if (!num) return;
+            let zone = "", sub = "", floor = "";
+            if (num >= 3101 && num <= 3108) zone = "Villas";
+            else if (num >= 2100 && num <= 2107) { zone = "Residence"; sub = "A"; floor = Math.floor((num-2100)/2)+1; }
+            else if (num >= 2200 && num <= 2207) { zone = "Residence"; sub = "B"; floor = Math.floor((num-2200)/2)+1; }
+            else if (num >= 2300 && num <= 2307) { zone = "Residence"; sub = "C"; floor = Math.floor((num-2300)/4)+1; }
+            else if (num >= 2400 && num <= 2401) { zone = "Residence"; sub = "D"; floor = (num-2400)+1; }
+            else if (num >= 1100 && num <= 1821) { zone = "Leiro Tower"; sub = Math.floor(num / 100) - 10; }
+            else if (num % 2 === 0) { zone = "Darko"; sub = Math.floor(num / 100); }
+            else { zone = "Brinkman"; sub = Math.floor(num / 100); }
+            if (zone) { currentData = { zone, sub, floor, room: num, type: '', priority: 'low', image: null }; openForm(num); } else alert("No encontrado");
         }
 
-        function setType(type, el) {
-            currentData.type = type;
-            document.querySelectorAll('.type-btn').forEach(b => {
-                b.classList.remove('bg-higueron', 'text-white');
-                b.classList.add('bg-slate-50', 'dark:bg-slate-800');
-            });
-            el.classList.remove('bg-slate-50', 'dark:bg-slate-800');
-            el.classList.add('bg-higueron', 'text-white');
+        function setPriority(p, el) { 
+            currentData.priority = p; 
+            document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active-prio-low', 'active-prio-med', 'active-prio-high'));
+            el.classList.add(`active-prio-${p}`);
         }
 
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const MAX = 400; const scale = MAX / img.width;
+        function setType(type, el) { 
+            currentData.type = type; 
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active-type'));
+            el.classList.add('active-type');
+        }
+        
+        function previewImage(event) { 
+            const file = event.target.files[0]; if(!file) return;
+            const reader = new FileReader(); 
+            reader.onload = (e) => { 
+                const img = new Image(); img.src = e.target.result; 
+                img.onload = () => { 
+                    const canvas = document.createElement('canvas'); const MAX = 600; const scale = MAX / img.width;
                     canvas.width = MAX; canvas.height = img.height * scale;
                     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                    currentData.image = canvas.toDataURL('image/jpeg', 0.5);
+                    currentData.image = canvas.toDataURL('image/jpeg', 0.6);
                     document.getElementById('img-preview').src = currentData.image;
                     document.getElementById('preview-container').classList.remove('hidden');
                     document.getElementById('camera-btn').classList.add('hidden');
                 };
-            };
-            reader.readAsDataURL(file);
+            }; reader.readAsDataURL(file); 
         }
 
-        function removeImage() {
-            currentData.image = null;
-            document.getElementById('preview-container').classList.add('hidden');
-            document.getElementById('camera-btn').classList.remove('hidden');
-        }
+        function removeImage() { currentData.image = null; document.getElementById('preview-container').classList.add('hidden'); document.getElementById('camera-btn').classList.remove('hidden'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark'); localStorage.setItem('higueron_dark', document.body.classList.contains('dark')); updateThemeIcon(document.body.classList.contains('dark')); }
+        function updateThemeIcon(isDark) { const icon = document.getElementById('theme-icon'); icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon'); lucide.createIcons(); }
 
         function finalSave() {
-            if (!currentData.type) return alert("Selecciona el tipo de avería");
-            const r = {
-                id: Date.now(), room: currentData.room, zone: currentData.zone,
-                type: currentData.type, priority: currentData.priority,
-                note: document.getElementById('task-note').value, image: currentData.image,
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), done: false
-            };
-            let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
-            h.unshift(r); localStorage.setItem('higueron_reports', JSON.stringify(h));
-            resetApp();
+            if (!currentData.type) return alert("Selecciona tipo");
+            const r = { id: Date.now(), room: currentData.room, zone: currentData.zone, sub: currentData.sub, floor: currentData.floor, type: currentData.type, priority: currentData.priority, note: document.getElementById('task-note').value, image: currentData.image, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), done: false };
+            let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); h.unshift(r); localStorage.setItem('higueron_reports', JSON.stringify(h)); resetApp();
         }
 
-        function toggleDone(id) {
-            let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
-            const i = h.findIndex(x => x.id === id);
-            h[i].done = !h[i].done;
-            localStorage.setItem('higueron_reports', JSON.stringify(h)); showHistory();
+        function updateStats() {
+            const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
+            const t = h.length, d = h.filter(i => i.done).length, p = Math.round((d/t)*100) || 0;
+            document.getElementById('stats-bar').innerHTML = `<div>Total: ${t} | <span class="text-green-500">Hechos: ${d}</span></div><div class="text-[#ff5900]">${p}% EFICACIA</div>`;
         }
 
         function showHistory() {
-            const list = document.getElementById('history-list');
-            let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
-            list.innerHTML = h.length ? '' : `<div class="py-20 text-slate-300 font-black text-center uppercase italic">Sin registros</div>`;
+            const list = document.getElementById('history-list'); let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
+            list.innerHTML = h.length ? '' : `<div class="py-20 text-slate-300 font-black text-center">HISTORIAL VACÍO</div>`;
             h.forEach(item => {
                 const div = document.createElement('div');
-                div.className = `bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm priority-${item.priority} ${item.done ? 'card-done' : ''} border dark:border-slate-700`;
-                div.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="font-black text-2xl dark:text-white">#${item.room}</span>
-                            <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${item.zone} | ${item.time}</div>
-                        </div>
-                        ${item.image ? `<img src="${item.image}" class="w-14 h-14 rounded-xl object-cover" onclick="window.open(this.src)">` : ''}
-                    </div>
-                    <div class="mt-4 flex justify-between items-end">
-                        <div class="flex-1">
-                            <span class="text-[9px] font-black ${item.done ? 'bg-green-100 text-green-700' : 'bg-higueron text-white'} px-3 py-1 rounded-full uppercase">${item.type}</span>
-                            <p class="text-xs font-bold mt-2 italic dark:text-slate-300">${item.note || '-'}</p>
-                        </div>
-                        <button onclick="toggleDone(${item.id})" class="w-12 h-12 rounded-2xl flex items-center justify-center ${item.done ? 'bg-green-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-400'}">
-                            <i data-lucide="${item.done ? 'check' : 'circle'}"></i>
-                        </button>
-                    </div>
-                `;
+                div.className = `bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm priority-card-${item.priority} ${item.done ? 'task-done' : ''}`;
+                div.innerHTML = `<div class="flex justify-between items-center"><div><span class="font-black text-2xl dark:text-white">#${item.room}</span><div class="text-[9px] text-slate-400 font-bold uppercase">${item.zone} | ${item.time}</div></div>${item.image ? `<img src="${item.image}" class="w-16 h-16 rounded-xl object-cover border-2 border-[#ff5900]" onclick="window.open(this.src)">` : ''}</div><div class="mt-4 flex justify-between items-center"><span class="text-[10px] font-black ${item.done ? 'bg-green-500 text-white' : 'bg-[#003a63] text-white'} px-4 py-2 rounded-full uppercase border-2 border-[#ff5900]">${item.type}</span><div class="flex gap-3 items-center"><span class="text-[10px] italic text-slate-400 max-w-[120px] truncate">${item.note || ''}</span><button onclick="toggleDone(${item.id})" class="p-3 rounded-xl ${item.done ? 'bg-green-600 text-white shadow-lg' : 'btn-serveo-border text-slate-400'}"><i data-lucide="${item.done ? 'check-circle' : 'circle'}"></i></button></div></div>`;
                 list.appendChild(div);
             });
-            showView('view-history');
+            updateStats(); showView('view-history');
         }
 
-        function updatePendingCounter() {
-            const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
-            const p = h.filter(i => !i.done).length;
-            document.getElementById('pending-count').innerText = p;
-            const t = h.length; const d = t - p;
-            document.getElementById('stat-total').innerText = t;
-            document.getElementById('stat-done').innerText = d;
-            document.getElementById('stat-percent').innerText = (t > 0 ? Math.round((d / t) * 100) : 0) + '%';
-        }
-
-        function sendWhatsApp() {
-            const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
-            let msg = "*📊 REPORTE SSTT HIGUERON*\n\n";
-            h.forEach(i => msg += `${i.done ? '✅' : '⏳'} *HAB ${i.room}* - ${i.type}\n_${i.note || '-'}_ \n\n`);
-            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        function downloadExcel() {
-            const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
-            let csv = "Hab;Zona;Tipo;Prioridad;Nota;Estado\n";
-            h.forEach(i => csv += `${i.room};${i.zone};${i.type};${i.priority};${i.note};${i.done?'HECHO':'PENDIENTE'}\n`);
-            const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a"); link.href = URL.createObjectURL(blob);
-            link.download = `SSTT_Higueron.csv`; link.click();
-        }
-
-        function exportData() {
-            const h = localStorage.getItem('higueron_reports');
-            if (!h) return;
-            const blob = new Blob([h], { type: 'application/json' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-            a.download = `SSTT_BACKUP.json`; a.click();
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const data = JSON.parse(e.target.result);
-                localStorage.setItem('higueron_reports', JSON.stringify(data));
-                showHistory();
-                alert("Recuperado");
-            };
-            reader.readAsText(file);
-        }
-
-        function clearHistory() { if(confirm("¿Borrar historial?")) { localStorage.removeItem('higueron_reports'); showHistory(); } }
-        function resetApp() { document.getElementById('quick-search').value = ""; currentData = { zone: '', sub: '', room: '', type: '', priority: 'low', image: null }; showView('view-zones'); }
+        function toggleDone(id) { let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); const i = h.findIndex(x => x.id === id); h[i].done = !h[i].done; localStorage.setItem('higueron_reports', JSON.stringify(h)); showHistory(); }
+        function updatePendingCounter() { const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); const p = h.filter(i => !i.done).length; document.getElementById('pending-count').innerText = p; }
+        function sendWhatsApp() { const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); let msg = "*📊 REPORTE SERVEO*\n\n"; h.forEach(i => msg += `${i.done?'✅':'⏳'} *${i.room}* - ${i.type}\n`); window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank'); }
+        function exportData() { const h = localStorage.getItem('higueron_reports') || '[]'; const blob = new Blob([h], { type: 'application/json' }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `SSTT_BACKUP.json`; link.click(); }
+        function importData() { const input = document.createElement('input'); input.type = 'file'; input.accept = '.json'; input.onchange = e => { const file = e.target.files[0]; const reader = new FileReader(); reader.onload = ev => { try { const data = JSON.parse(ev.target.result); localStorage.setItem('higueron_reports', JSON.stringify(data)); showHistory(); } catch(err) { alert("Error"); } }; reader.readAsText(file); }; input.click(); }
+        function clearAllData() { if(confirm("¿Borrar todo?")) { localStorage.setItem('higueron_reports', '[]'); showHistory(); } }
+        function downloadExcel() { const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); let csv = "Hab;Zona;Tipo;Estado\n"; h.forEach(i => csv += `${i.room};${i.zone};${i.type};${i.done?'HECHO':'PEND'}\n`); const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `SSTT.csv`; link.click(); }
 
         if (localStorage.getItem('higueron_dark') === 'true') { document.body.classList.add('dark'); updateThemeIcon(true); }
         updatePendingCounter(); lucide.createIcons();
