@@ -330,22 +330,44 @@
         }
 
         function showHistory() {
-            const list = document.getElementById('history-list'); let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
-            list.innerHTML = h.length ? '' : `<div class="py-20 text-slate-300 font-black text-center">HISTORIAL VACÍO</div>`;
+            const list = document.getElementById('history-list');
+            const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]');
+            list.replaceChildren();
+            if (!h.length) {
+                const empty = document.createElement('div');
+                empty.className = 'py-20 text-slate-300 font-black text-center';
+                empty.textContent = 'HISTORIAL VACÍO';
+                list.appendChild(empty);
+            }
             h.forEach(item => {
+                const done = item.done === true;
+                const priority = ['low', 'med', 'high'].includes(item.priority) ? item.priority : 'low';
                 const div = document.createElement('div');
-                div.className = `bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm priority-card-${item.priority} ${item.done ? 'task-done' : ''}`;
-                div.innerHTML = `<div class="flex justify-between items-center"><div><span class="font-black text-2xl dark:text-white">#${item.room}</span><div class="text-[9px] text-slate-400 font-bold uppercase">${item.zone} | ${item.time}</div></div>${item.image ? `<img src="${item.image}" class="w-16 h-16 rounded-xl object-cover border-2 border-[#ff5900]" onclick="window.open(this.src)">` : ''}</div><div class="mt-4 flex justify-between items-center"><span class="text-[10px] font-black ${item.done ? 'bg-green-500 text-white' : 'bg-[#003a63] text-white'} px-4 py-2 rounded-full uppercase border-2 border-[#ff5900]">${item.type}</span><div class="flex gap-3 items-center"><span class="text-[10px] italic text-slate-400 max-w-[120px] truncate">${item.note || ''}</span><button onclick="toggleDone(${item.id})" class="p-3 rounded-xl ${item.done ? 'bg-green-600 text-white shadow-lg' : 'btn-serveo-border text-slate-400'}"><i data-lucide="${item.done ? 'check-circle' : 'circle'}"></i></button></div></div>`;
+                div.className = `bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm priority-card-${priority} ${done ? 'task-done' : ''}`;
+                div.innerHTML = `<div class="flex justify-between items-center"><div><span data-room class="font-black text-2xl dark:text-white"></span><div data-meta class="text-[9px] text-slate-400 font-bold uppercase"></div></div><div data-image></div></div><div class="mt-4 flex justify-between items-center"><span data-type class="text-[10px] font-black ${done ? 'bg-green-500 text-white' : 'bg-[#003a63] text-white'} px-4 py-2 rounded-full uppercase border-2 border-[#ff5900]"></span><div class="flex gap-3 items-center"><span data-note class="text-[10px] italic text-slate-400 max-w-[120px] truncate"></span><button data-toggle class="p-3 rounded-xl ${done ? 'bg-green-600 text-white shadow-lg' : 'btn-serveo-border text-slate-400'}"><i data-lucide="${done ? 'check-circle' : 'circle'}"></i></button></div></div>`;
+                div.querySelector('[data-room]').textContent = `#${item.room ?? ''}`;
+                div.querySelector('[data-meta]').textContent = `${item.zone ?? ''} | ${item.time ?? ''}`;
+                div.querySelector('[data-type]').textContent = item.type ?? '';
+                div.querySelector('[data-note]').textContent = item.note ?? '';
+                if (typeof item.image === 'string' && /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(item.image)) {
+                    const img = document.createElement('img');
+                    img.src = item.image;
+                    img.className = 'w-16 h-16 rounded-xl object-cover border-2 border-[#ff5900]';
+                    img.addEventListener('click', () => window.open(img.src));
+                    div.querySelector('[data-image]').appendChild(img);
+                }
+                const toggle = div.querySelector('[data-toggle]');
+                toggle.disabled = !Number.isSafeInteger(item.id);
+                toggle.addEventListener('click', () => toggleDone(item.id));
                 list.appendChild(div);
             });
             updateStats(); showView('view-history');
         }
-
         function toggleDone(id) { let h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); const i = h.findIndex(x => x.id === id); h[i].done = !h[i].done; localStorage.setItem('higueron_reports', JSON.stringify(h)); showHistory(); }
         function updatePendingCounter() { const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); const p = h.filter(i => !i.done).length; document.getElementById('pending-count').innerText = p; }
         function sendWhatsApp() { const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); let msg = "*📊 REPORTE SERVEO*\n\n"; h.forEach(i => msg += `${i.done?'✅':'⏳'} *${i.room}* - ${i.type}\n`); window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank'); }
         function exportData() { const h = localStorage.getItem('higueron_reports') || '[]'; const blob = new Blob([h], { type: 'application/json' }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `SSTT_BACKUP.json`; link.click(); }
-        function importData() { const input = document.createElement('input'); input.type = 'file'; input.accept = '.json'; input.onchange = e => { const file = e.target.files[0]; const reader = new FileReader(); reader.onload = ev => { try { const data = JSON.parse(ev.target.result); localStorage.setItem('higueron_reports', JSON.stringify(data)); showHistory(); } catch(err) { alert("Error"); } }; reader.readAsText(file); }; input.click(); }
+        function importData() { const input = document.createElement('input'); input.type = 'file'; input.accept = '.json'; input.onchange = e => { const file = e.target.files[0]; const reader = new FileReader(); reader.onload = ev => { try { const data = JSON.parse(ev.target.result); if (!Array.isArray(data) || !data.every(item => item && typeof item === 'object' && !Array.isArray(item) && Number.isSafeInteger(item.id))) throw new Error('Backup inválido'); localStorage.setItem('higueron_reports', JSON.stringify(data)); showHistory(); } catch(err) { alert("Error"); } }; reader.readAsText(file); }; input.click(); }
         function clearAllData() { if(confirm("¿Borrar todo?")) { localStorage.setItem('higueron_reports', '[]'); showHistory(); } }
         function downloadExcel() { const h = JSON.parse(localStorage.getItem('higueron_reports') || '[]'); let csv = "Hab;Zona;Tipo;Estado\n"; h.forEach(i => csv += `${i.room};${i.zone};${i.type};${i.done?'HECHO':'PEND'}\n`); const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `SSTT.csv`; link.click(); }
 
